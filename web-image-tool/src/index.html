@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Image Tool</title>
+    <title>Image Tool</title>
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Image Upload Tool</h1>
-        <input type="file" id="imageUpload" accept="image/png, image/jpeg">
-        <canvas id="imageCanvas" width="1000" height="720"></canvas>
-        <button id="downloadButton">Download Image</button>
+    <div>
+        <input type="file" id="uploadInput" accept="image/png, image/jpeg">
+        <button id="downloadButton">Download</button>
+        <canvas id="imageCanvas"></canvas>
     </div>
-    <script src="scripts/app.js"></script>
+    <script src="scripts/app.js"></script> <!-- Place this at the end of the body -->
 </body>
 </html>
