@@ -51,16 +51,20 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.shadowOffsetX = 10;
         ctx.shadowOffsetY = 10;
 
-        // Calculate the position to center the image
-        const aspectRatio = img.width / img.height;
+        // Calculate the position and size to center the image while maintaining aspect ratio
+        const canvasAspectRatio = canvas.width / canvas.height;
+        const imageAspectRatio = img.width / img.height;
+
         let newWidth, newHeight;
 
-        if (aspectRatio > 1) {
-            newWidth = 1000;
-            newHeight = 1000 / aspectRatio;
+        if (imageAspectRatio > canvasAspectRatio) {
+            // Image is wider than the canvas
+            newWidth = canvas.width * 0.8; // Use 80% of the canvas width
+            newHeight = newWidth / imageAspectRatio;
         } else {
-            newHeight = 720;
-            newWidth = 720 * aspectRatio;
+            // Image is taller than the canvas
+            newHeight = canvas.height * 0.8; // Use 80% of the canvas height
+            newWidth = newHeight * imageAspectRatio;
         }
 
         const x = (canvas.width - newWidth) / 2;
