@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     downloadButton.addEventListener('click', downloadImage);
 
     function initializeCanvas() {
-        const backgroundColor = '#d3d3d3'; // Light grey background
+        const backgroundColor = '#efefef'; // Updated to light grey (#efefef)
         ctx.fillStyle = backgroundColor;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function drawImageOnCanvas(img) {
-        const backgroundColor = '#d3d3d3'; // Light grey background
+        const backgroundColor = '#efefef'; // Updated to light grey (#efefef)
         const shadowColor = 'rgba(0, 0, 0, 0.5)'; // Drop shadow color
 
         // Clear the canvas
