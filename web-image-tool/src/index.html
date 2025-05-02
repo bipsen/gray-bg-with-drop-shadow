@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Tool</title>
     <link rel="stylesheet" href="styles/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script> <!-- PDF.js -->
 </head>
 <body>
     <div>
-        <h1>ogtal.dk thumbnail machine</h1> <!-- Added title -->
-        <input type="file" id="uploadInput" accept="image/png, image/jpeg">
+        <h1>Image Processing Tool</h1>
+        <ul>
+            <li><strong>Hvad kan værktøjet?</strong> Du kan uploade billeder (PNG eller JPEG) eller PDF-filer.</li>
+            <li><strong>Hvad sker der med billeder?</strong> De bliver centreret på en grå baggrund med en skygge og tilpasset til en størrelse på 1000x720 pixels.</li>
+            <li><strong>Hvad sker der med PDF'er?</strong> Den første side af PDF'en bliver automatisk udtrukket og behandlet som et billede.</li>
+            <li><strong>Hvad kan du gøre bagefter?</strong> Du kan downloade det færdige billede.</li>
+        </ul>
+        <input type="file" id="uploadInput" accept="image/png, image/jpeg, application/pdf">
         <button id="downloadButton">Download</button>
         <canvas id="imageCanvas"></canvas>
     </div>

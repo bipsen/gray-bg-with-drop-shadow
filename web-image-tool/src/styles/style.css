@@ -1,44 +1,105 @@
+/* Generel styling */
 body {
-    background-color: #ffffff; /* White background for the page */
+    background-color: #f5f5f5; /* Lys baggrundsfarve */
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif; /* Moderne skrifttype */
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
+    padding: 20px;
 }
 
-.container {
-    background-color: #d3d3d3;
-    width: 1000px;
-    height: 720px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    position: relative;
-}
-
-.image-preview {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    margin: auto;
-}
-
-/* Center the canvas and controls */
+/* Container styling */
 div {
+    text-align: center;
+    max-width: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+/* Titel styling */
+h1 {
+    font-size: 28px;
+    color: #222;
+    margin-bottom: 10px;
     text-align: center;
 }
 
-/* Add some spacing between the input and button */
-input, button {
-    margin: 10px;
+/* Beskrivelse styling */
+ul {
+    text-align: center;
+    margin: 0 0 20px 0;
+    padding: 0;
+    list-style-type: none;
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
 }
 
-/* Style the canvas */
+ul li {
+    margin-bottom: 8px;
+}
+
+ul li strong {
+    color: #222;
+}
+
+/* Input og knap styling */
+input, button {
+    margin: 10px 5px;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input {
+    background-color: #fff;
+}
+
+button {
+    background-color: #4CAF50; /* Moderne grøn farve */
+    color: white;
+    border: none;
+}
+
+button:hover {
+    background-color: #45a049; /* Mørkere grøn ved hover */
+}
+
+/* Canvas styling */
 canvas {
     display: block;
-    margin: 20px auto;
-    border: 1px solid #ccc; /* Optional: Add a border to the canvas */
+    margin: 20px auto 0 auto; /* Centreret og placeret under input */
+    border: none; /* Fjernet kant */
+    background-color: #efefef; /* Grå baggrund */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Moderne skygge */
+    max-width: 100%; /* Sørger for, at canvas ikke stikker ud */
+    height: auto; /* Bevarer proportionerne */
+}
+
+/* Responsiv styling */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    input, button {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    canvas {
+        width: 100%;
+        max-width: 500px;
+    }
 }

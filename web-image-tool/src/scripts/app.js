@@ -22,16 +22,62 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleImageUpload(event) {
         const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    drawImageOnCanvas(img);
+            const fileType = file.type;
+
+            if (fileType === 'application/pdf') {
+                // Handle PDF file
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const pdfData = new Uint8Array(e.target.result);
+                    renderPDF(pdfData);
                 };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+                reader.readAsArrayBuffer(file);
+            } else if (fileType === 'image/png' || fileType === 'image/jpeg') {
+                // Handle image file
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        drawImageOnCanvas(img);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Unsupported file type. Please upload a PNG, JPEG, or PDF.');
+            }
         }
+    }
+
+    function renderPDF(pdfData) {
+        const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+        loadingTask.promise.then(function(pdf) {
+            // Get the first page
+            pdf.getPage(1).then(function(page) {
+                const viewport = page.getViewport({ scale: 1 });
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+
+                tempCanvas.width = viewport.width;
+                tempCanvas.height = viewport.height;
+
+                const renderContext = {
+                    canvasContext: tempCtx,
+                    viewport: viewport,
+                };
+
+                page.render(renderContext).promise.then(function() {
+                    const img = new Image();
+                    img.onload = function() {
+                        drawImageOnCanvas(img);
+                    };
+                    img.src = tempCanvas.toDataURL('image/png');
+                });
+            });
+        }).catch(function(error) {
+            console.error('Error loading PDF:', error);
+            alert('Failed to load PDF. Please try again.');
+        });
     }
 
     function drawImageOnCanvas(img) {
