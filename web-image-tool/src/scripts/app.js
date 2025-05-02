@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function drawImageOnCanvas(img) {
-        const backgroundColor = '#efefef'; // Updated to light grey (#efefef)
+        const backgroundColor = '#efefef'; // Light grey background
         const shadowColor = 'rgba(0, 0, 0, 0.5)'; // Drop shadow color
 
         // Clear the canvas
@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set shadow properties
         ctx.shadowColor = shadowColor;
         ctx.shadowBlur = 20;
-        ctx.shadowOffsetX = 10;
-        ctx.shadowOffsetY = 10;
+        ctx.shadowOffsetX = 0; // Shadow centered horizontally
+        ctx.shadowOffsetY = 0; // Shadow centered vertically
 
         // Calculate the position and size to center the image while maintaining aspect ratio
         const canvasAspectRatio = canvas.width / canvas.height;
