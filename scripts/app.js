@@ -4,20 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadInput = document.getElementById('uploadInput');
     const downloadButton = document.getElementById('downloadButton');
 
-    canvas.width = 1000;
-    canvas.height = 720;
-
-    // Initialize the canvas with a grey background
-    initializeCanvas();
-
     uploadInput.addEventListener('change', handleImageUpload);
     downloadButton.addEventListener('click', downloadImage);
-
-    function initializeCanvas() {
-        const backgroundColor = '#efefef'; // Updated to light grey (#efefef)
-        ctx.fillStyle = backgroundColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
 
     function handleImageUpload(event) {
         const file = event.target.files[0];
@@ -27,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (fileType === 'application/pdf') {
                 // Handle PDF file
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     const pdfData = new Uint8Array(e.target.result);
                     renderPDF(pdfData);
                 };
@@ -35,9 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (fileType === 'image/png' || fileType === 'image/jpeg') {
                 // Handle image file
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     const img = new Image();
-                    img.onload = function() {
+                    img.onload = function () {
+                        adjustCanvasSize(img);
                         drawImageOnCanvas(img);
                     };
                     img.src = e.target.result;
@@ -49,12 +38,58 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function adjustCanvasSize(img) {
+        // Adjust canvas size to match the uploaded image's resolution
+        canvas.width = img.width;
+        canvas.height = img.height;
+    }
+
+    function drawImageOnCanvas(img) {
+        const backgroundColor = '#efefef'; // Light grey background
+        const shadowColor = 'rgba(0, 0, 0, 0.5)'; // Drop shadow color
+
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw the background
+        ctx.fillStyle = backgroundColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Set shadow properties
+        ctx.shadowColor = shadowColor;
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
+        // Calculate the position and size to center the image while maintaining aspect ratio
+        const canvasAspectRatio = canvas.width / canvas.height;
+        const imageAspectRatio = img.width / img.height;
+
+        let newWidth, newHeight;
+
+        if (imageAspectRatio > canvasAspectRatio) {
+            // Image is wider than canvas
+            newWidth = canvas.width * 0.85; // Use 85% of the canvas width
+            newHeight = newWidth / imageAspectRatio;
+        } else {
+            // Image is taller than canvas
+            newHeight = canvas.height * 0.85; // Use 85% of the canvas height
+            newWidth = newHeight * imageAspectRatio;
+        }
+
+        const x = (canvas.width - newWidth) / 2;
+        const y = (canvas.height - newHeight) / 2;
+
+        // Draw the image
+        ctx.drawImage(img, x, y, newWidth, newHeight);
+    }
+
     function renderPDF(pdfData) {
         const loadingTask = pdfjsLib.getDocument({ data: pdfData });
-        loadingTask.promise.then(function(pdf) {
+        loadingTask.promise.then(function (pdf) {
             // Get the first page
-            pdf.getPage(1).then(function(page) {
-                const viewport = page.getViewport({ scale: 1 });
+            pdf.getPage(1).then(function (page) {
+                const viewport = page.getViewport({ scale: 2 }); // Increase scale for higher resolution
                 const tempCanvas = document.createElement('canvas');
                 const tempCtx = tempCanvas.getContext('2d');
 
@@ -66,58 +101,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     viewport: viewport,
                 };
 
-                page.render(renderContext).promise.then(function() {
+                page.render(renderContext).promise.then(function () {
                     const img = new Image();
-                    img.onload = function() {
+                    img.onload = function () {
+                        adjustCanvasSize(img);
                         drawImageOnCanvas(img);
                     };
                     img.src = tempCanvas.toDataURL('image/png');
                 });
             });
-        }).catch(function(error) {
+        }).catch(function (error) {
             console.error('Error loading PDF:', error);
             alert('Failed to load PDF. Please try again.');
         });
-    }
-
-    function drawImageOnCanvas(img) {
-        const backgroundColor = '#efefef'; // Light grey background
-        const shadowColor = 'rgba(0, 0, 0, 0.7)'; // Darker drop shadow color
-
-        // Clear the canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw the background
-        ctx.fillStyle = backgroundColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Set shadow properties
-        ctx.shadowColor = shadowColor;
-        ctx.shadowBlur = 30; // Increased shadow blur
-        ctx.shadowOffsetX = 0; // Shadow centered horizontally
-        ctx.shadowOffsetY = 0; // Shadow centered vertically
-
-        // Calculate the position and size to center the image while maintaining aspect ratio
-        const canvasAspectRatio = canvas.width / canvas.height;
-        const imageAspectRatio = img.width / img.height;
-
-        let newWidth, newHeight;
-
-        if (imageAspectRatio > canvasAspectRatio) {
-            // Image is wider than the canvas
-            newWidth = canvas.width * 0.85; // Use 85% of the canvas width
-            newHeight = newWidth / imageAspectRatio;
-        } else {
-            // Image is taller than the canvas
-            newHeight = canvas.height * 0.85; // Use 85% of the canvas height
-            newWidth = newHeight * imageAspectRatio;
-        }
-
-        const x = (canvas.width - newWidth) / 2;
-        const y = (canvas.height - newHeight) / 2;
-
-        // Draw the image
-        ctx.drawImage(img, x, y, newWidth, newHeight);
     }
 
     function downloadImage() {
