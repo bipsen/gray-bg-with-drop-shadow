@@ -105,11 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (imageAspectRatio > canvasAspectRatio) {
             // Image is wider than the canvas
-            newWidth = canvas.width * 0.8; // Use 80% of the canvas width
+            newWidth = canvas.width * 0.85; // Use 85% of the canvas width
             newHeight = newWidth / imageAspectRatio;
         } else {
             // Image is taller than the canvas
-            newHeight = canvas.height * 0.8; // Use 80% of the canvas height
+            newHeight = canvas.height * 0.85; // Use 85% of the canvas height
             newWidth = newHeight * imageAspectRatio;
         }
 
