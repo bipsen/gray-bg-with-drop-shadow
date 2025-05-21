@@ -38,10 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function adjustCanvasSize(img) {
-        // Adjust canvas size to match the uploaded image's resolution
-        canvas.width = img.width;
-        canvas.height = img.height;
+    function adjustCanvasSize() {
+        canvas.width = 1900;
+        canvas.height = 1400;
     }
 
     function drawImageOnCanvas(img) {
@@ -73,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             newHeight = newWidth / imageAspectRatio;
         } else {
             // Image is taller than canvas
-            newHeight = canvas.height * 0.85; // Use 85% of the canvas height
+            newHeight = canvas.height * 0.55; // Use 85% of the canvas height
             newWidth = newHeight * imageAspectRatio;
         }
 
@@ -104,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 page.render(renderContext).promise.then(function () {
                     const img = new Image();
                     img.onload = function () {
-                        adjustCanvasSize(img);
+                        adjustCanvasSize();
                         drawImageOnCanvas(img);
                     };
                     img.src = tempCanvas.toDataURL('image/png');
@@ -121,5 +120,5 @@ document.addEventListener('DOMContentLoaded', () => {
         link.download = 'processed-image.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
-    }
+    }  
 });
