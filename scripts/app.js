@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function downloadImage() {
         const link = document.createElement('a');
-        link.download = 'processed-image.jpg';
+        link.download =  `${'processed_' + Date.now()}.jpg`;
         link.href = canvas.toDataURL('image/jpeg', 0.9);
         link.click();
     }  
