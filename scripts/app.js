@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             newHeight = newWidth / imageAspectRatio;
         } else {
             // Image is taller than canvas
-            newHeight = canvas.height * 0.55; // Use 85% of the canvas height
+            newHeight = canvas.height * 0.85; // Use 85% of the canvas height
             newWidth = newHeight * imageAspectRatio;
         }
 
